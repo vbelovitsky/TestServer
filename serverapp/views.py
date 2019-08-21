@@ -11,15 +11,15 @@ def get_all_papers(request):
         papers = Paper.objects.all()
 
         serializer = PaperSerializer(papers, many=True)
-        return Response({"papers": serializer.data})
+        return Response(serializer.data)
 
 
 @api_view(['GET'])
 def get_paper(request, pk):
         paper = get_object_or_404(Paper.objects.all(), pk=pk)
 
-        serializer = PaperSerializer(paper, many=False)
-        return Response({"papers": serializer.data})
+        serializer = PaperSerializer(paper)
+        return Response(serializer.data)
 
 
 @api_view(['POST'])
@@ -28,7 +28,7 @@ def create_paper(request):
         serializer = PaperSerializer(data=paper)
         if serializer.is_valid(raise_exception=True):
             paper_saved = serializer.save()
-        return Response({"success": "Paper '{}' created successfully".format(paper_saved.title)})
+        return Response({"message": "Paper '{}' created successfully".format(paper_saved.title)})
 
 
 @api_view(['POST'])
@@ -39,7 +39,7 @@ def update_paper(request, pk):
         if serializer.is_valid(raise_exception=True):
             paper_saved = serializer.save()
         return Response({
-            "success": "Paper '{}' updated successfully".format(paper_saved.title)
+            "message": "Paper '{}' updated successfully".format(paper_saved.title)
         })
 
 
