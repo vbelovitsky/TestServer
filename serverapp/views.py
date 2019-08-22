@@ -24,7 +24,7 @@ def get_paper(request, pk):
 
 @api_view(['POST'])
 def create_paper(request):
-        paper = request.data.get('paper')
+        paper = request.data
         serializer = PaperSerializer(data=paper)
         if serializer.is_valid(raise_exception=True):
             paper_saved = serializer.save()
@@ -34,7 +34,7 @@ def create_paper(request):
 @api_view(['POST'])
 def update_paper(request, pk):
         saved_paper = get_object_or_404(Paper.objects.all(), pk=pk)
-        data = request.data.get('paper')
+        data = request.data
         serializer = PaperSerializer(instance=saved_paper, data=data, partial=True)
         if serializer.is_valid(raise_exception=True):
             paper_saved = serializer.save()
